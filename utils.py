@@ -122,5 +122,6 @@ def batch_vertex_sample(batch_idx: torch.LongTensor, vertex: torch.Tensor):
         vertex: (B * L * 3)
     '''
     batch_idx_expand = batch_idx.unsqueeze(2).expand(batch_idx.shape[0], batch_idx.shape[1], vertex.shape[2])
+    batch_idx_expand = batch_idx_expand.to(torch.int64)
     sampled_vertex = torch.gather(vertex, 1, batch_idx_expand)
     return sampled_vertex

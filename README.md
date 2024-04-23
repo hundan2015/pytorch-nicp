@@ -8,7 +8,7 @@ Additionally, we smooth the calculated mesh with laplacian smoothness term. With
 Also, we support batchwise registration, in each batch, we can registering different meshes with the same template.
 
 ------
-
+$$
 ### Quick Start
 #### Install
 We use python3.8 and cuda10.2 for implementation. The code is tested on Ubuntu 20.04.
