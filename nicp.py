@@ -96,8 +96,10 @@ def non_rigid_icp_mesh2pcl(
 
     # template_lm = batch_vertex_sample(template_lm_index, template_vertex)
     template_lm_id, template_weights = make_landmark.convert_4d_to_landmark_get(
-        point_landmark_data, template_mesh.faces_list()[0]
+        point_landmark_data
     )
+    template_lm_id = torch.tensor(template_lm_id, device=device)
+    template_weights = torch.tensor(template_weights, device=device)
     template_lm = make_landmark.points_on_triangle_to_3d(
         template_mesh.faces_list()[0],
         template_mesh.verts_list()[0],
@@ -147,8 +149,8 @@ def non_rigid_icp_mesh2pcl(
         new_deformed_verts, stiffness = local_affine_model(
             transformed_vertex, pool_num=0, return_stiff=True
         )
-        temp_mesh = template_mesh.update_padded(new_deformed_verts)
-        io3d.save_meshes_as_objs(["shit{}.obj".format(0)], temp_mesh, save_textures=False)
+        # temp_mesh = template_mesh.update_padded(new_deformed_verts)
+        # io3d.save_meshes_as_objs(["shit{}.obj".format(0)], temp_mesh, save_textures=False)
         # new_deformed_lm = batch_vertex_sample(template_lm_index, new_deformed_verts)
         new_deformed_lm = make_landmark.points_on_triangle_to_3d(
             template_mesh.faces_list()[0],
@@ -234,7 +236,9 @@ def non_rigid_icp_mesh2pcl(
         if i in milestones:
             # temp_mesh = template_mesh.update_padded(new_deformed_verts)
             temp_mesh = template_mesh.update_padded(new_deformed_verts)
-            io3d.save_meshes_as_objs(["shit{}.obj".format(i)], temp_mesh, save_textures=False)
+            io3d.save_meshes_as_objs(
+                ["shit{}.obj".format(i)], temp_mesh, save_textures=False
+            )
 
             w_idx += 1
 

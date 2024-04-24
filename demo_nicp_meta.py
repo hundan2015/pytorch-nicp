@@ -38,18 +38,18 @@ with torch.no_grad():
         torch.from_numpy(np.array(data.reconstruction_points)).to(device).long()
     )
     # USE LESS END
-    # target_lm = make_landmark.read_4d_xyz_file("./target_lm.txt")
+    # target_lm = make_landmark.read_4d_xyz_file("./lmshit.txt")
     target_lm_data = make_landmark.read_4d_file("./target_lm.txt")
     target_lm_ids, target_lm_weights = make_landmark.convert_4d_to_landmark_get(
-        target_lm_data, norm_meshes.faces_list()[0]
+        target_lm_data
     )
     target_lm = make_landmark.points_on_triangle_to_3d(
         norm_meshes.faces_list()[0],
         norm_meshes.verts_list()[0],
-        target_lm_ids,
-        target_lm_weights,
+        torch.tensor(target_lm_ids, device=device).int(),
+        torch.tensor(target_lm_weights, device=device),
     )
-
+    print(make_landmark.toJson(target_lm))
     # target_lm = torch.from_numpy(np.array(([target_lm]))).to(device)
     target_lm = target_lm.unsqueeze(0)
 
