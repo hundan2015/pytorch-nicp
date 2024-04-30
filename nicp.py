@@ -199,7 +199,7 @@ def non_rigid_icp_mesh2pcl(
             stiffness = stiffness.view(bsize, -1)
             stiffness_sum = torch.sum(stiffness) * stiffness_weights[w_idx] / bsize
             laplacian_loss = (
-                mesh_laplacian_smoothing(new_deform_mesh) * laplacian_weight
+                mesh_laplacian_smoothing(new_deform_mesh, "cot") * laplacian_weight
             )
             loss = torch.sqrt(vert_sum + landmark_sum + stiffness_sum) + laplacian_loss
             loss.backward()

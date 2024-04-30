@@ -24,13 +24,14 @@ meshes = io3d.load_obj_as_mesh("./test_data/0.obj", device=device)
 with torch.no_grad():
     norm_meshes, norm_param = normalize_mesh(meshes)
 
-    bfm_meshes = io3d.load_obj_as_mesh("./BFM/dnaraw.obj", device=device)
+    bfm_meshes = io3d.load_obj_as_mesh("./BFM/ano2.obj", device=device)
     bfm_meshes, bfm_meshes_norm = normalize_mesh(bfm_meshes)
 
-    metahuman_landmark_data = make_landmark.read_4d_file("./landmark.txt")
+    metahuman_landmark_data = make_landmark.read_4d_file("./landmark1.txt")
     landmarks, weights = make_landmark.convert_4d_to_landmark(
         metahuman_landmark_data, bfm_meshes.faces_list()[0]
     )
+    print(len(landmarks))
     landmarks = [landmarks]
     bfm_lm_index_m = torch.from_numpy(np.array(landmarks)).to(device).long()
     # USE LESS
@@ -39,7 +40,7 @@ with torch.no_grad():
     )
     # USE LESS END
     # target_lm = make_landmark.read_4d_xyz_file("./lmshit.txt")
-    target_lm_data = make_landmark.read_4d_file("./target_lm.txt")
+    target_lm_data = make_landmark.read_4d_file("./target_lm1.txt")
     target_lm_ids, target_lm_weights = make_landmark.convert_4d_to_landmark_get(
         target_lm_data
     )
